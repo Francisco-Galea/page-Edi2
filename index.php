@@ -3,37 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login y Registro</title>
+    <title>Guías de Videojuegos</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+    <header>
+        <img src="path/to/your/logo.png" alt="Logo" class="logo">
+        <a href="login/login.html" class="login-button">Inicia sesión</a>
+    </header>
+    
+    <div class="hero">
+        <h1>Bienvenido a las Guías de Videojuegos</h1>
+    </div>
+
     <div class="container">
-        <h1>Bienvenido</h1>
+        <div class="all-guides">
+        <?php
+            require_once('database/dbConnection.php');
+
+            $queryAll = "SELECT * FROM guides";
+            $resultAll = $conn->query($queryAll);
+
+            if ($resultAll->num_rows > 0) {
+                while ($row = $resultAll->fetch_assoc()) {
+                // Extrae el ID del video de YouTube del enlace
+                $videoUrl = htmlspecialchars($row['video_url']);
+                preg_match('/v=([a-zA-Z0-9_-]{11})/', $videoUrl, $matches);
+                $videoId = $matches[1];
+                $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
         
-        <!-- Login Form -->
-        <div id="loginForm" class="form-container">
-            <h2>Login</h2>
-            <form action="login.php" method="post">
-                <label for="username">Usuario:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Iniciar sesión</button>
-            </form>
-            <p><a href="#registerForm" class="toggle-link">Crea tu usuario</a></p>
-        </div>
+                // Asegúrate de que estas claves existan en el array
+                $description = isset($row['description']) ? htmlspecialchars($row['description']) : 'Descripción no disponible';
+                $author = isset($row['author']) ? htmlspecialchars($row['author']) : 'Autor no disponible';
         
-        <!-- Register Form -->
-        <div id="registerForm" class="form-container hidden">
-            <h2>Registro</h2>
-            <form action="register.php" method="post">
-                <label for="susername">Usuario:</label>
-                <input type="text" id="susername" name="susername" required>
-                <label for="spassword">Contraseña:</label>
-                <input type="password" id="spassword" name="spassword" required>
-                <button type="submit">Registrarse</button>
-            </form>
-            <p><a href="#loginForm" class="toggle-link">Ya tengo una cuenta, iniciar sesión</a></p>
+                echo '<div class="guide-card">';
+                echo '<a href="' . $videoUrl . '" target="_blank">';
+                echo '<img src="' . htmlspecialchars($thumbnailUrl) . '" alt="Miniatura">';
+                echo '</a>';
+                echo '<p>' . $description . '</p>';
+                echo '<p class="author">Autor: ' . $author . '</p>';
+                echo '</div>';
+                                                     }
+            } else {
+                echo '<p>No hay guías disponibles.</p>';        
+                }
+        ?>
         </div>
     </div>
 </body>
