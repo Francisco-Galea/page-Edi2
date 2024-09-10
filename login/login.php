@@ -1,6 +1,5 @@
 <?php
-include('database/dbConecction.php');
-session_start();
+require_once('../database/dbConnection.php');
 
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
@@ -11,7 +10,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if ($query->num_rows > 0) {
         $row = $query->fetch_array();
         $_SESSION['user'] = (int)$row['userid'];
-        header("Location: dashboard.php");
+        echo "<span>WASAAA</span>";
         exit();
     } else {
         echo "<span>Login fallido. Usuario no encontrado.</span>";
