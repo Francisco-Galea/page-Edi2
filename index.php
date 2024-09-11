@@ -8,45 +8,37 @@
 </head>
 <body>
     <header>
-        <img src="path/to/your/logo.png" alt="Logo" class="logo">
+        <img src="assets/images/logo-nueve.png" alt="Logo" class="logo">
         <a href="login/login.html" class="login-button">Inicia sesión</a>
-    </header>
-    
+    </header>    
     <div class="hero">
         <h1>Bienvenido a las Guías de Videojuegos</h1>
     </div>
-
     <div class="container">
         <div class="all-guides">
         <?php
             require_once('database/dbConnection.php');
-
             $queryAll = "SELECT * FROM guides";
             $resultAll = $conn->query($queryAll);
-
             if ($resultAll->num_rows > 0) {
                 while ($row = $resultAll->fetch_assoc()) {
-                // Extrae el ID del video de YouTube del enlace
-                $videoUrl = htmlspecialchars($row['video_url']);
-                preg_match('/v=([a-zA-Z0-9_-]{11})/', $videoUrl, $matches);
-                $videoId = $matches[1];
-                $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
-        
-                // Asegúrate de que estas claves existan en el array
-                $description = isset($row['description']) ? htmlspecialchars($row['description']) : 'Descripción no disponible';
-                $author = isset($row['author']) ? htmlspecialchars($row['author']) : 'Autor no disponible';
-        
-                echo '<div class="guide-card">';
-                echo '<a href="' . $videoUrl . '" target="_blank">';
-                echo '<img src="' . htmlspecialchars($thumbnailUrl) . '" alt="Miniatura">';
-                echo '</a>';
-                echo '<p>' . $description . '</p>';
-                echo '<p class="author">Autor: ' . $author . '</p>';
-                echo '</div>';
-                                                     }
+                    $videoUrl = htmlspecialchars($row['video_url']);
+                    preg_match('/v=([a-zA-Z0-9_-]{11})/', $videoUrl, $matches);
+                    $videoId = $matches[1];
+                    $thumbnailUrl = "https://img.youtube.com/vi/$videoId/maxresdefault.jpg";
+                    $description = htmlspecialchars($row['description']);
+                    $author = htmlspecialchars($row['author']);
+                    echo '<div class="guide-card">';
+                    echo '<a href="' . $videoUrl . '" target="_blank">';
+                    echo '<img src="' . htmlspecialchars($thumbnailUrl) . '" alt="Miniatura">';
+                    echo '</a>';
+                    echo '<p>' . $description . '</p>';
+                    echo '<p class="author">Autor: ' . $author . '</p>';
+                    echo '</div>';
+                }
             } else {
                 echo '<p>No hay guías disponibles.</p>';        
-                }
+            }
         ?>
         </div>
     </div>
