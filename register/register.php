@@ -5,7 +5,7 @@ if (isset($_POST['susername']) && isset($_POST['spassword'])) {
     $username = $_POST['susername'];
     $password = $_POST['spassword'];
 
-    $query = $conn->query("SELECT * FROM user WHERE username='$username'");
+    $query = $conn->query("SELECT * FROM users WHERE username='$username'");
 
     if ($query->num_rows > 0) {
         echo "<span>El nombre de usuario ya existe.</span>";
@@ -15,7 +15,7 @@ if (isset($_POST['susername']) && isset($_POST['spassword'])) {
         echo "<span>Contraseña inválida. Espacios y caracteres especiales no permitidos.</span>";
     } else {
         $mpassword = md5($password);
-        $conn->query("INSERT INTO user (username, password) VALUES ('$username', '$mpassword')");
+        $conn->query("INSERT INTO users (username, password) VALUES ('$username', '$mpassword')");
         echo "<span>Registro exitoso.</span>";
     }
 }

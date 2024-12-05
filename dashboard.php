@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header("Location: login/login.html");
+    header("Location: login/login.php");
     exit();
 }
 
@@ -9,7 +9,7 @@ require_once('database/dbConnection.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_guide'])) {
     $video_url = $_POST['video_url'];
-    $author = $_POST['author'];
+    $author = $_SESSION['user'];  
     $description = $_POST['description'];
 
     $stmt = $conn->prepare("INSERT INTO guides (video_url, author, description) VALUES (?, ?, ?)");
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_guide'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_guide'])) {
     $id = $_POST['guide_id'];
     $video_url = $_POST['video_url'];
-    $author = $_POST['author'];
+    $author = $_SESSION['user'];  
     $description = $_POST['description'];
 
     $stmt = $conn->prepare("UPDATE guides SET video_url=?, author=?, description=? WHERE id=?");
@@ -49,8 +49,12 @@ if (isset($_GET['edit_id'])) {
     $editGuide = $result->fetch_assoc();
     $stmt->close();
 }
-$queryAll = "SELECT * FROM guides";
-$resultAll = $conn->query($queryAll);
+
+$queryAll = "SELECT * FROM guides WHERE author = ?";  
+$stmtAll = $conn->prepare($queryAll);
+$stmtAll->bind_param("s", $_SESSION['user']);  
+$stmtAll->execute();
+$resultAll = $stmtAll->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -72,15 +76,13 @@ $resultAll = $conn->query($queryAll);
             <input type="hidden" name="guide_id" value="<?php echo $editGuide ? $editGuide['id'] : ''; ?>">
             <label for="video_url">URL del Video:</label>
             <input type="text" id="video_url" name="video_url" value="<?php echo $editGuide ? htmlspecialchars($editGuide['video_url']) : ''; ?>" required>
-            <label for="author">Autor:</label>
-            <input type="text" id="author" name="author" value="<?php echo $editGuide ? htmlspecialchars($editGuide['author']) : ''; ?>" required>
             <label for="description">Descripción:</label>
             <textarea id="description" name="description" required><?php echo $editGuide ? htmlspecialchars($editGuide['description']) : ''; ?></textarea>
             <button type="submit" name="<?php echo $editGuide ? 'update_guide' : 'add_guide'; ?>">
                 <?php echo $editGuide ? 'Actualizar Guía' : 'Agregar Guía'; ?>
             </button>
         </form>
-        <h2>Guías Disponibles</h2>
+        <h2>Mis Guías</h2>
         <div class="all-guides">
             <?php
             if ($resultAll->num_rows > 0) {
@@ -106,7 +108,7 @@ $resultAll = $conn->query($queryAll);
                     echo '</div>';
                 }
             } else {
-                echo '<p>No hay guías disponibles.</p>';
+                echo '<p>No tienes guías subidas.</p>';
             }
             ?>
         </div>
