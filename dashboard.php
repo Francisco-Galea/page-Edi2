@@ -67,7 +67,12 @@ $resultAll = $stmtAll->get_result();
 </head>
 <body>
     <header>
-        <a href="index.php" class="home-button">Volver al Inicio</a>
+        <form action="index.php" method="get" style="display:inline;">
+            <button type="submit" class="header-button">Volver al Inicio</button>
+        </form>
+        <form action="login/logout.php" method="post" style="display:inline;">
+            <button type="submit" class="header-button">Cerrar Sesión</button>
+        </form>
     </header>
     <div class="container">
         <h1>Panel de Administración de Guías</h1>
