@@ -46,7 +46,6 @@
                     echo '<img src="' . htmlspecialchars($thumbnailUrl) . '" alt="Miniatura">';
                     echo '</a>';
                     echo '<p>' . $description . '</p>';
-                    echo '<p class="author">Autor: ' . $author . '</p>';
                     echo '</div>';
                 }
             } else {

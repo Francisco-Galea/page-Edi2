@@ -137,7 +137,6 @@ $resultAll = $stmtAll->get_result();
                     echo '<img src="' . $thumbnailUrl . '" alt="Miniatura">';
                     echo '</a>';
                     echo '<p>' . $description . '</p>';
-                    echo '<p class="author">Autor: ' . $author . '</p>';
                     
                     // Formulario para eliminar la guía
                     echo '<form action="dashboard.php" method="post" style="display:inline;">
