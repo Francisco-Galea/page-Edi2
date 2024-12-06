@@ -31,28 +31,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
+    <title>Registro de Usuario</title>
     <link rel="stylesheet" href="../assets/styles.css">
+    <style>
+        .error-message {
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .success-message {
+            background-color: #ccffcc;
+            color: #006600;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .button-container button {
+            flex: 1;
+            margin: 0 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container-session">
-        <h1>Registro</h1>
+        <h1>Registro de Usuario</h1>
         <div id="registerForm" class="form-container">
-            <h2>Registro</h2>
-            <?php if ($error_message): ?>
-                <div class="error-message"><?php echo $error_message; ?></div>
-            <?php endif; ?>
-            <?php if ($success_message): ?>
-                <div class="success-message"><?php echo $success_message; ?></div>
-            <?php endif; ?>
+            <h2>Crear Cuenta</h2>
+            <?php
+            if (!empty($error_message)) {
+                echo "<div class='error-message'>$error_message</div>";
+            }
+            if (!empty($success_message)) {
+                echo "<div class='success-message'>$success_message</div>";
+            }
+            ?>
             <form action="register.php" method="post">
                 <label for="susername">Usuario:</label>
                 <input type="text" id="susername" name="susername" required>
                 <label for="spassword">Contraseña:</label>
                 <input type="password" id="spassword" name="spassword" required>
-                <button type="submit">Registrarse</button>
+                <div class="button-container">
+                    <button type="submit">Registrarse</button>
+                    <button type="button" onclick="window.location.href='../index.php'">Volver al inicio</button>
+                </div>
             </form>
-            <p><a href="../login/login.html" class="toggle-link">Ya tengo una cuenta, iniciar sesión</a></p>
+            <p><a href="../login/login.php" class="toggle-link">¿Ya tienes una cuenta? Inicia sesión</a></p>
         </div>
     </div>
 </body>

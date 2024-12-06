@@ -9,7 +9,7 @@
 <body>
     <header>
         <img src="assets/images/logo-nueve.png" alt="Logo" class="logo">
-        <a href="login/login.html" class="login-button">Inicia sesión</a>
+        <a href="login/login.php" class="login-button">Inicia sesión</a>
     </header>    
     <div class="hero">
         <h1>Bienvenido a las Guías de Videojuegos</h1>
