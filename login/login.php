@@ -47,24 +47,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login y Registro</title>
     <link rel="stylesheet" href="../assets/styles.css">
-    <style>
-        .error-message {
-            background-color: #ffcccc;
-            color: #cc0000;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-        .button-container button {
-            flex: 1;
-            margin: 0 5px;
-        }
-    </style>
 </head>
 <body>
     <div class="container-session">
