@@ -1,0 +1,27 @@
+$stmt  es para almacenar una consulta
+
+------------------------------------------------------
+
+Cuando bindeas los parametros, por ejemplo aca:
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_guide'])) {
+    // Obtiene los datos del formulario, los asigna a variables
+    $video_url = $_POST['video_url'];
+    $author = $_SESSION['user'];  
+    $description = $_POST['description'];
+
+    // Manda esas variables a la consulta SQL y se ejecuta
+    $stmt = $conn->prepare("INSERT INTO guides (video_url, author, description) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $video_url, $author, $description);
+    $stmt->execute();
+    $stmt->close();
+}
+
+$stmt->bind_param("sss", $video_url, $author, $description);
+"sss" significa que pasan valores de tipo: string string string
+Pasa lo mismo con "isss", siginifica que se pasa int string string string
+
+------------------------------------------------------
+
+Posible pregunta. 
+Por que se termina haciendo casi todo con POST o GET y no se usa simplemente los otros metodos HTTP? 
+como delete, put, patch etc
