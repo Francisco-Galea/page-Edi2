@@ -2,19 +2,39 @@
 require_once('../database/dbConnection.php');
 session_start();
 
+// Uso esta variable por si falla el logeo
 $error_message = "";
 
+// Si le doy a logearse...
 if (isset($_POST['username']) && isset($_POST['password'])) {
+    // Traigo los datos que el usuario haya puesto
+
+    // Traigo el usuario
     $username = $_POST['username'];
+
+    // Traigo la contraseña, la encripto y la guardo en esa variable
     $password = md5($_POST['password']);
+
+    // A partir de los datos, hago la consulta con esos datos como filtros
     $query = $conn->query("SELECT * FROM users WHERE username='$username' AND password='$password'");
 
+    // Si encuentra un valor...
     if ($query->num_rows > 0) {
         $row = $query->fetch_array();
+
+        // Almaceno el id del usuario, que será util para hacer las acciones como:
+        // Crear, traer, modificar y eliminar guias
         $_SESSION['user'] = (int)$row['userid'];
+
+        // Me redirige al dashboard donde estan las guias
         header("Location: ../dashboard.php");
+
+        // Cierra el script
         exit();
     } else {
+
+        //Si no encontro nada que concuerde
+        // con el usuario o contraseña, sale
         $error_message = "Login fallido. Usuario no encontrado.";
     }
 }
@@ -51,7 +71,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         <h1>Bienvenido</h1>
         <div id="loginForm" class="form-container">
             <h2>Login</h2>
+
             <?php
+            
+            // Si hubo error en el login, tira el error
             if (!empty($error_message)) {
                 echo "<div class='error-message'>$error_message</div>";
             }
@@ -66,7 +89,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     <button type="button" onclick="window.location.href='../index.php'">Volver al inicio</button>
                 </div>
             </form>
-            <p><a href="../register/register.html" class="toggle-link">Crea tu usuario</a></p>
+            <p><a href="../register/register.php" class="toggle-link">Crea tu usuario</a></p>
         </div>
     </div>
 </body>
